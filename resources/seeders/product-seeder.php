@@ -53,6 +53,7 @@ $seeder->import(
             );
             $item->setPrice(random_int(500, 9999));
             $item->setInventory(random_int(0, 1000));
+            $item->setOrdering($i);
             $item->setState($faker->randomElement([1, 1, 0]));
             $item->setCreated($created = $faker->dateTimeThisYear());
             $item->setModified($created->modify('+10days'));

@@ -35,6 +35,12 @@ $menu->link(
     $nav->to('article_list')
 );
 
+// Product
+$menu->link(
+    'Product List',
+    $nav->to('product_list')
+);
+
 // Page
 $menu->link(
     $lang('unicorn.title.grid', title: $lang('luna.page.title')),
