@@ -36,6 +36,10 @@ $seeder->import(
                 'max_level' => 3,
                 'number' => 30
             ],
+            'product' => [
+                'max_level' => 2,
+                'number' => 10
+            ],
         ];
 
         $faker = $seeder->faker('en_US');
