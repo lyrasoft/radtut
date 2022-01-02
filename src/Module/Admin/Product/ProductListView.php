@@ -113,6 +113,10 @@ class ProductListView implements ViewModelInterface
             'product.id',
             'product.title',
             'product.alias',
+            'product.intro',
+            'product.description',
+            'author.name',
+            'author.email',
         ];
     }
 

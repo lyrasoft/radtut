@@ -74,9 +74,12 @@ class ProductController
         GridController $controller
     ): mixed {
         $task = $app->input('task');
+
         $data = match ($task) {
             'publish' => ['state' => 1],
             'unpublish' => ['state' => 0],
+            'feature' => ['featured' => 1],
+            'unfeature' => ['featured' => 0],
             default => null
         };
 

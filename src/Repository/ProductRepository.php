@@ -25,6 +25,7 @@ use Unicorn\Repository\ManageRepositoryInterface;
 use Unicorn\Repository\ManageRepositoryTrait;
 use Unicorn\Selector\ListSelector;
 use Windwalker\ORM\SelectorQuery;
+use Windwalker\Query\Query;
 
 /**
  * The ProductRepository class.
@@ -38,6 +39,36 @@ class ProductRepository implements ManageRepositoryInterface, ListRepositoryInte
     public function getListSelector(): ListSelector
     {
         $selector = $this->createSelector();
+
+        $selector->addAllowFields(
+            'start_date',
+            'end_date'
+        );
+
+        $selector->addFilterHandler(
+            'start_date',
+            function (Query $query, string $field, mixed $value) {
+                if ($value !== '') {
+                    $query->where('product.created', '>=', $value);
+                }
+            }
+        );
+
+        $selector->addFilterHandler(
+            'end_date',
+            function (Query $query, string $field, mixed $value) {
+                if ($value !== '') {
+                    $query->where('product.created', '<=', $value);
+                }
+            }
+        );
+
+        $selector->addSearchHandler(
+            'author.name',
+            function (Query $query, string $field, mixed $value) {
+                $query->where('author.name', 'LIKE', $value . '%');
+            }
+        );
 
         $selector->from(Product::class)
             ->leftJoin(

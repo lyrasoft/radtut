@@ -43,6 +43,9 @@ class Product implements EntityInterface
 
     #[Column('category_id')]
     protected int $categoryId = 0;
+    #[Column('featured')]
+    #[Cast('bool', 'int')]
+    protected bool $featured = false;
 
     #[Column('title')]
     protected string $title = '';
@@ -307,6 +310,15 @@ class Product implements EntityInterface
     {
         $this->state = new BasicState($state);
 
+        return $this;
+    }
+    public function isFeatured() : bool
+    {
+        return $this->featured;
+    }
+    public function setFeatured(bool $featured) : static
+    {
+        $this->featured = $featured;
         return $this;
     }
 }

@@ -11,12 +11,15 @@ declare(strict_types=1);
 
 namespace App\Module\Admin\Product\Form;
 
+use Lyrasoft\Luna\Field\CategoryListField;
 use Unicorn\Enum\BasicState;
+use Unicorn\Field\CalendarField;
 use Windwalker\Core\Language\TranslatorTrait;
 use Windwalker\Form\Field\ListField;
 use Windwalker\Form\Field\SearchField;
 use Windwalker\Form\FieldDefinitionInterface;
 use Windwalker\Form\Form;
+use Windwalker\Utilities\Symbol;
 
 /**
  * The GridForm class.
@@ -40,7 +43,7 @@ class GridForm implements FieldDefinitionInterface
                 $form->add('*', SearchField::class)
                     ->label($this->trans('unicorn.grid.search.label'))
                     ->placeholder($this->trans('unicorn.grid.search.label'))
-                    ->attr('x-on:keydown.enter', '$store.grid.sendFilter($event)');
+                    ->onchange('this.form.submit()');
             }
         );
 
@@ -48,10 +51,26 @@ class GridForm implements FieldDefinitionInterface
             'filter',
             function (Form $form) {
                 $form->add('product.state', ListField::class)
-                    ->label('State')
+                    ->label($this->trans('unicorn.field.state'))
                     ->option($this->trans('unicorn.select.placeholder'), '')
                     ->registerOptions(BasicState::getTransItems($this->lang))
-                    ->attr('x-on:change', '$store.grid.sendFilter()');
+                    ->onchange('this.form.submit()');
+
+                $form->add('product.category_id', CategoryListField::class)
+                    ->label('Category')
+                    ->categoryType('product')
+                    ->option($this->trans('unicorn.select.placeholder'), '')
+                    ->onchange('this.form.submit()');
+
+                $form->add('start_date', CalendarField::class)
+                    ->label('Start Date')
+                    ->enableTime(true)
+                    ->onchange('this.form.submit()');
+
+                $form->add('end_date', CalendarField::class)
+                    ->label('End Date')
+                    ->enableTime(true)
+                    ->onchange('this.form.submit()');
             }
         );
 
@@ -62,6 +81,11 @@ class GridForm implements FieldDefinitionInterface
                     ->label($this->trans('unicorn.field.state'))
                     ->option($this->trans('unicorn.select.no.change'), '')
                     ->registerOptions(BasicState::getTransItems($this->lang));
+
+                $form->add('category_id', CategoryListField::class)
+                    ->label('Category')
+                    ->categoryType('product')
+                    ->option($this->trans('unicorn.select.no.change'), '');
             }
         );
     }

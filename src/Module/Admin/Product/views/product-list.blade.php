@@ -61,6 +61,11 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                             @lang('unicorn.field.state')
                         </x-sort>
                     </th>
+                    <th>
+                        <x-sort field="product.featured">
+                            Feature
+                        </x-sort>
+                    </th>
                     <th class="text-nowrap">
                         <x-sort field="product.title">
                             @lang('unicorn.field.title')
@@ -117,6 +122,25 @@ $workflow = $app->service(\Unicorn\Workflow\BasicStateWorkflow::class);
                                 :id="$entity->getId()"
                                 :value="$item->state"
                             />
+                        </td>
+                        <td>
+                            @if ($entity->isFeatured())
+                            <button class="btn btn-sm btn-light"
+                                data-bs-toggle="tooltip"
+                                title="精選: 點擊取消"
+                                @click="grid.doTask('unfeature', '{{ $entity->getId() }}')"
+                            >
+                                <span class="fas fa-star"></span>
+                            </button>
+                            @else
+                            <button class="btn btn-sm btn-light"
+                                data-bs-toggle="tooltip"
+                                title="點擊設為精選"
+                                @click="grid.doTask('feature', '{{ $entity->getId() }}')"
+                            >
+                                <span class="far fa-star"></span>
+                            </button>
+                            @endif
                         </td>
                         <td>
                             <div>
